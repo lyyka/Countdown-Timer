@@ -1,0 +1,21 @@
+#form{
+	padding: 25px 25px;
+	width: 50%;
+	margin-left: 25%;
+	margin-right: 25%;
+}
+#sbmt{
+	width:100%;
+	padding: 7px 7px;
+}
+#timer{
+	margin-top: 50px;
+	font-size: 50px;
+	text-align: center;
+}
+input{
+	width: 100%;
+	border: none;
+	border-bottom: 1px solid black;
+	margin-bottom: 15px;
+}
