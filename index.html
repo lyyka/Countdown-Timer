@@ -9,17 +9,18 @@
 		<link rel = "stylesheet" href = "css/index.css">
 		<link rel = "stylesheet" href = "css/animate.css">
 		<!-- js -->
+		<script src = "js/twitter_for_website.js"></script>
 		<script src = "js/jquery.js"></script>
 		<script src = "js/timer.js"></script>
 	</head>
 	<body class = "font-raleway">
 		<div id = "form">
-			<label>Day:</label>
-			<input id = "day" type = "number" min = 1 max = 31><br>
-			<label>Month:</label>
-			<input id = "month" type = "number" min = 1 max = 12><br>
-			<label>Year:</label>
-			<input id = "year" type = "number" min = 2018 max = 3000><br>
+			<label for = "day">Day:</label>
+			<input class = "input-field" id = "day" type = "number" min = 1 max = 31><br>
+			<label for = "month">Month:</label>
+			<input class = "input-field" id = "month" type = "number" min = 1 max = 12><br>
+			<label for = "year">Year:</label>
+			<input class = "input-field" id = "year" type = "number" min = 2018 max = 3000><br>
 			<button id = "sbmt">Calculate</button><br>
 		</div>
 		<div id = "timer" class = "container">
@@ -66,6 +67,20 @@
 						<h3>CountdownTimer</h3>
 					</div>
 				</div>
+			</div>
+		</div>
+		<div id = "congrats-holder">
+			<div id = "congrats-div" class = "container">
+				<h3 align="center" id = "congrats-h">CONGRATULATIONS!</h3>
+				<p align="center">Your countdown timer is up! Hope you enjoyed using this app while waiting for something important to happen!</p>
+				<hr>
+				<p align="center">Make sure to share our app and help us count down more awesome events!</p>
+				<!-- facebook share button -->
+				<iframe src="https://www.facebook.com/plugins/share_button.php?href=https%3A%2F%2Fcountdowntimer.com&layout=button_count&size=large&mobile_iframe=true&width=84&height=28&appId" width="84" height="28" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>
+				<!-- twitter share button -->
+				<a class="twitter-share-button" href="https://twitter.com/intent/tweet?text=Hey,%20come%20and%20take%20a%20look%20at%20this%20awesome%20countdown%20timer%20and%20see%20how%20close%20are%20your%20events!%20https://www.countdowntimer.com"
+				  data-size="large">
+				Tweet</a>
 			</div>
 		</div>
 	</body>

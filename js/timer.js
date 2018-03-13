@@ -1,22 +1,47 @@
+var total_h = 0;
+var left_h = -1;
+var left_m = -1;
+var left_s = -1;
+var int;
+var colors = [
+{first: "#ffe259", second: "#ffa751"},
+{first: "#bc4e9c", second: "#f80759"},
+{first: "lightblue", second: "palegreen"},
+{first: "#ffa751", second: "#f80759"}
+];
+var random_index = Math.floor((Math.random() * colors.length) + 1);
+var pair = colors[random_index-1];
 $(document).ready(function(){
 	$("#timer").css("display","none");
+	$("#form").addClass("animated fadeInRightBig");
+	$("#footer").addClass("animated fadeIn");
+	window.setTimeout(function(){
+		$("#form").removeClass("animated fadeInRightBig");
+		$("#footer").removeClass("animated fadeIn");
+	},2000);
 	// random color array
-	var colors = [
-	{first: "#ffe259", second: "#ffa751"},
-	{first: "#bc4e9c", second: "#f80759"},
-	{first: "lightblue", second: "palegreen"},
-	{first: "#ffa751", second: "#f80759"}
-	];
-	var random_index = Math.floor((Math.random() * colors.length) + 1);
-	var pair = colors[random_index-1];
 	var attr =  "linear-gradient(to bottom right, " + pair.first + ", " + pair.second + ")";
 	$("#sbmt").css("background", attr);
+	$("#congrats-h").css("color",GetRandomColor());
+	// input focus in
+	$(".input-field").focus(function(){
+		var label = $("label[for='"+$(this).attr('id')+"']");
+		color = GetRandomColor();
+		HighlightLabel(label,color);
+	});
+	// input focus out
+	$(".input-field").blur(function(){
+		var label = $("label[for='"+$(this).attr('id')+"']");
+		RemoveHighlight(label);
+	});
+	// button click
 	$("#sbmt").click(function(){
+		$("#congrats-holder").css("display","block");
+		clearInterval(int);
 		// final dan mesec godina
 		var day = $("#day").val();
 		var month = $("#month").val();
 		var year = $("#year").val();
-		var total_h = 0;
 		if(CheckInput(day,month,year)){
 			// date time getter
 			var date = new Date();
@@ -35,10 +60,9 @@ $(document).ready(function(){
 			// if the day is different
 			if(day != curr_day){
 				// time until current day ends
-				var left_h = 24 - curr_hours - 1;
-				total_h += left_h;
-				var left_m = 60 - curr_mins;
-				var left_s = 60 - curr_seconds;
+				left_h = 24 - curr_hours - 1;
+				left_m = 60 - curr_mins;
+				left_s = 60 - curr_seconds;
 				// if it is the same month
 				if(month == curr_month && year == curr_year){
 					total_h += ((day_diff-1)*24);
@@ -80,15 +104,6 @@ $(document).ready(function(){
 					}
 				}
 			}
-			else{
-				left_h = -1;
-				left_m = -1;
-				left_s = -1;
-			}
-			if(total_h > 0){
-				total_h -= left_h;
-			}
-			
 			// total h / 24 is days left
 			// left h is h left
 			// left m is minutes left
@@ -98,11 +113,33 @@ $(document).ready(function(){
 			}
 			else{
 				DisplayTimer(attr,total_h,left_h,left_m,left_s);
+				StartCountDown();
 			}
 			
 		}
 	});
 });
+// gets random color from an array
+function GetRandomColor(){
+	var color = "";
+	var color1 = pair.first;
+	var color2 = pair.second;
+	var rand = Math.floor((Math.random() * 2) + 1);
+	if(rand == 1){
+		color = color1;
+	}
+	if(rand == 2){
+		color = color2;
+	}
+	return color;
+}
+// highlight label of the input
+function RemoveHighlight(label){
+	label.css("color","black");
+}
+function HighlightLabel(label,color){
+	label.css("color",color);
+}
 // gets how much days does the current date have based on it's number and year(to see if it is a leap year)
 function GetMonthDays(year,month_num){
 	if(month_num == 1 || month_num == 3 || month_num == 5 || month_num == 7 || month_num == 8 || month_num == 10 || month_num == 12){
@@ -124,12 +161,15 @@ function DisplayTimer(attr,total_h,left_h,left_m,left_s){
 	// displaying timer and choosing random color pair for text
 	$("#timer").css("display","block");
 	$(".number-div").css("background", attr);
-	$("#timer").addClass("animated fadeInLeft");
+	$("#timer").addClass("animated fadeInLeftBig");
 	// end of displaying timer
 	$("#days").html(total_h/24);
 	$("#hours").html(left_h);
 	$("#minutes").html(left_m);
 	$("#seconds").html(left_s);
+	window.setTimeout(function(){
+		$("#timer").removeClass("animated fadeInLeftBig");
+	},2000);
 }
 function CheckInput(day,month,year){
 	var pass = 1;
@@ -155,4 +195,34 @@ function CheckInput(day,month,year){
 	else{
 		return false;
 	}
+}
+function StartCountDown(){
+	int = setInterval(Count,1000);
+}
+function Count(){
+	left_s--;
+	if(left_s == 0){
+		left_m--;
+		left_s =60;
+		if(left_m == -1){
+			left_h--;
+			left_m = 60;
+			if(left_h == -1){
+				total_h -= 24;
+				left_h = 24;
+			}
+		}
+	}
+	if(total_h == 0 && left_h == 0 && left_m == 0 && left_s == 0){
+		clearInterval(int);
+	}
+	else{
+		UpdateTimer();
+	}
+}
+function UpdateTimer(){
+	$("#days").html(total_h/24);
+	$("#hours").html(left_h);
+	$("#minutes").html(left_m);
+	$("#seconds").html(left_s);
 }
