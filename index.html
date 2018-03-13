@@ -1,25 +1,72 @@
 <html>
 	<head>
+		<!-- bootstrap -->
+		<link rel = "stylesheet" href = "css/bootstrap.css">
+		<script src = "js/bootstrap.js"></script>
 		<!-- css -->
-		<link rel = "stylesheet" href = "style.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link href="https://fonts.googleapis.com/css?family=Raleway:300" rel="stylesheet">
+		<link rel = "stylesheet" href = "css/index.css">
+		<link rel = "stylesheet" href = "css/animate.css">
 		<!-- js -->
-		<script src = "jquery.js"></script>
-		<script src = "timer.js"></script>
+		<script src = "js/jquery.js"></script>
+		<script src = "js/timer.js"></script>
 	</head>
-	<body>
+	<body class = "font-raleway">
 		<div id = "form">
-			<form>
-				<label>Dan</label>
-				<input id = "day" type = "number" min = 1 max = 31><br>
-				<label>Mesec</label>
-				<input id = "month" type = "number" min = 1 max = 12><br>
-				<label>Godina</label>
-				<input id = "year" type = "number" min = 2018 max = 3000><br>
-				<button id = "sbmt">Pokreni</button><br>
-			</form>
+			<label>Day:</label>
+			<input id = "day" type = "number" min = 1 max = 31><br>
+			<label>Month:</label>
+			<input id = "month" type = "number" min = 1 max = 12><br>
+			<label>Year:</label>
+			<input id = "year" type = "number" min = 2018 max = 3000><br>
+			<button id = "sbmt">Calculate</button><br>
 		</div>
-		<div id = "timer">
-			<p id = time></p>
+		<div id = "timer" class = "container">
+			<div class = "row">
+				<!-- days -->
+				<div class = "col-md-3 number-col">
+					<div class = "number-div">
+						<p id = "days"></p>
+						<h3 align="center">DAYS</h3>
+					</div>
+				</div>
+				<!-- hours -->
+				<div class = "col-md-3 number-col">
+					<div class = "number-div">
+						<p id = "hours"></p>
+						<h3 align="center">HOURS</h3>
+					</div>
+				</div>
+				<!-- minutes -->
+				<div class = "col-md-3 number-col">
+					<div class = "number-div">
+						<p id = "minutes"></p>
+						<h3 align="center">MINUTES</h3>
+					</div>
+				</div>
+				<!-- seconds -->
+				<div class = "col-md-3 number-col">
+					<div class = "number-div">
+						<p id = "seconds"></p>
+						<h3 align="center">SECONDS</h3>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id = "footer">
+			<div class = 'container'>
+				<div class = "row">
+					<div  class = "col-md-8">
+						<a class = "acc-link" href = "https://www.github.com/lyyka" target = "_blank"><p align="center"><i class = "fa fa-github"></i>&nbsp; www.github.com/lyyka</p></a>
+						<a class = "acc-link" href = "https://www.facebook.com/lukarobajac00" target="_blank"><p align="center"><i class = "fa fa-facebook-official"></i>&nbsp; www.facebook.com/lukarobajac00</p></a>
+						<a class = "acc-link" href = "https://www.instagram.com/robajaac" target = "_blank"><p align="center"><i class = "fa fa-instagram"></i>&nbsp; www.instagram.com/robajaac</p></a>
+					</div>
+					<div class = "col-md-4">
+						<h3>CountdownTimer</h3>
+					</div>
+				</div>
+			</div>
 		</div>
 	</body>
 </html>
