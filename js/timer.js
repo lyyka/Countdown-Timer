@@ -21,6 +21,7 @@ $(document).ready(function(){
 	},2000);
 	// random color array
 	var attr =  "linear-gradient(to bottom right, " + pair.first + ", " + pair.second + ")";
+	var inverted_attr =  "linear-gradient(to top left, " + pair.first + ", " + pair.second + ")";
 	$("#sbmt").css("background", attr);
 	$("#congrats-h").css("color",GetRandomColor());
 	// input focus in
@@ -34,9 +35,17 @@ $(document).ready(function(){
 		var label = $("label[for='"+$(this).attr('id')+"']");
 		RemoveHighlight(label);
 	});
+	$("#sbmt").mouseenter(function(){
+		$("#sbmt").css("background",inverted_attr);
+	});
+	$("#sbmt").mouseleave(function(){
+		$("#sbmt").css("background",attr);
+	});
+	$("#close-congrats").click(function(){
+		$("#congrats-holder").css("display","none");
+	});
 	// button click
 	$("#sbmt").click(function(){
-		$("#congrats-holder").css("display","block");
 		clearInterval(int);
 		// final dan mesec godina
 		var day = $("#day").val();
@@ -215,6 +224,7 @@ function Count(){
 	}
 	if(total_h == 0 && left_h == 0 && left_m == 0 && left_s == 0){
 		clearInterval(int);
+		$("#congrats-holder").css("display","block");
 	}
 	else{
 		UpdateTimer();
