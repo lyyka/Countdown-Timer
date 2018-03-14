@@ -3,14 +3,30 @@ var left_h = -1;
 var left_m = -1;
 var left_s = -1;
 var int;
+// colors taken from www.uigradients.com
 var colors = [
 {first: "#ffe259", second: "#ffa751"},
 {first: "#bc4e9c", second: "#f80759"},
 {first: "lightblue", second: "palegreen"},
-{first: "#ffa751", second: "#f80759"}
+{first: "#ffa751", second: "#f80759"},
+{first: "#B24592" , second: "#B24592"},
+{first: "#457fca" , second: "#5691c8"},
+{first: "#eacda3", second: "#d6ae7b"},
+{first: "#834d9b", second: "#d04ed6"},
+{first: "#ff4b1f" , second: "#ff9068"},
+{first: "#FF5F6D" , second: "#FFC371"},
+{first: "#00d2ff" , second: "#928DAB"}
 ];
 var random_index = Math.floor((Math.random() * colors.length) + 1);
 var pair = colors[random_index-1];
+// random color array
+var attr_old = pair.first;
+var attr =  "linear-gradient(to bottom right, " + pair.first + ", " + pair.second + ")";
+var attr_webkit = "-webkitlinear-gradient(to bottom right, " + pair.first + ", " + pair.second + ")";
+// attrs for button hover
+var inverted_attr_old = pair.second;
+var inverted_attr =  "linear-gradient(to top left, " + pair.first + ", " + pair.second + ")";
+var inverted_attr_webkit =  "-webkit-linear-gradient(to top left, " + pair.first + ", " + pair.second + ")";
 $(document).ready(function(){
 	$("#timer").css("display","none");
 	$("#form").addClass("animated fadeInRightBig");
@@ -19,9 +35,8 @@ $(document).ready(function(){
 		$("#form").removeClass("animated fadeInRightBig");
 		$("#footer").removeClass("animated fadeIn");
 	},2000);
-	// random color array
-	var attr =  "linear-gradient(to bottom right, " + pair.first + ", " + pair.second + ")";
-	var inverted_attr =  "linear-gradient(to top left, " + pair.first + ", " + pair.second + ")";
+	$("#sbmt").css("background", attr_old);
+	$("#sbmt").css("background", attr_webkit);
 	$("#sbmt").css("background", attr);
 	$("#congrats-h").css("color",GetRandomColor());
 	// input focus in
@@ -36,10 +51,14 @@ $(document).ready(function(){
 		RemoveHighlight(label);
 	});
 	$("#sbmt").mouseenter(function(){
+		$("#sbmt").css("background",inverted_attr_old);
+		$("#sbmt").css("background",inverted_attr_webkit);
 		$("#sbmt").css("background",inverted_attr);
 	});
 	$("#sbmt").mouseleave(function(){
-		$("#sbmt").css("background",attr);
+		$("#sbmt").css("background", attr_old);
+		$("#sbmt").css("background", attr_webkit);
+		$("#sbmt").css("background", attr);
 	});
 	$("#close-congrats").click(function(){
 		$("#congrats-holder").css("display","none");
@@ -66,18 +85,19 @@ $(document).ready(function(){
 			var day_diff = day - curr_day;
 			var month_diff = month-curr_month-1;
 			var year_diff = year - curr_year;
+			total_h = 0;
 			// if the day is different
 			if(day != curr_day){
 				// time until current day ends
 				left_h = 24 - curr_hours - 1;
-				left_m = 60 - curr_mins;
+				left_m = 60 - curr_mins-1;
 				left_s = 60 - curr_seconds;
 				// if it is the same month
 				if(month == curr_month && year == curr_year){
 					total_h += ((day_diff-1)*24);
 				}
 				// if it is not the same month
-				else if(curr_month != month && (curr_month <= month && curr_year <= year)){
+				else if((curr_year == year && curr_month < month) || (curr_year < year)){
 					// time until current month ends
 					total_h += ((GetMonthDays(curr_year,curr_month) - curr_day - 1)*24);
 					curr_month++;
@@ -169,6 +189,8 @@ function GetMonthDays(year,month_num){
 function DisplayTimer(attr,total_h,left_h,left_m,left_s){
 	// displaying timer and choosing random color pair for text
 	$("#timer").css("display","block");
+	$(".number-div").css("background", attr_old);
+	$(".number-div").css("background", attr_webkit);
 	$(".number-div").css("background", attr);
 	$("#timer").addClass("animated fadeInLeftBig");
 	// end of displaying timer
@@ -212,10 +234,10 @@ function Count(){
 	left_s--;
 	if(left_s == 0){
 		left_m--;
-		left_s =60;
+		left_s = 59;
 		if(left_m == -1){
 			left_h--;
-			left_m = 60;
+			left_m = 59;
 			if(left_h == -1){
 				total_h -= 24;
 				left_h = 24;

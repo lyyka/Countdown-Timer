@@ -12,6 +12,8 @@
 	width:100%;
 	padding: 7px 7px;
 	border: none;
+	outline-width: 0px;
+	outline: none;
 }
 /*div for holding whole timer*/
 #timer{
@@ -54,6 +56,10 @@
 #footer a:hover{
 	text-decoration: underline;
 }
+/*transition for labels*/
+#form label{
+	transition: color 0.2s;
+}
 /*all input fields*/
 input{
 	outline: none;
@@ -70,6 +76,9 @@ input{
 	}
 	.number-col{
 		margin:7px 7px;
+	}
+	#footer{
+		margin-bottom: 25px;
 	}
 }
 /*add padding to body on bottom, for the footer*/
