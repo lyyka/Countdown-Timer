@@ -37,9 +37,9 @@
 .number-div{
 	display: block;
 	padding: 10px 10px;
-	font-size: 120px;
+	font-size: 100px;
 	border-radius: 10px;
-	box-shadow: 0px 0px 10px #262626;
+	box-shadow: 0px 0px 5px #262626;
 }
 /*footer*/
 #footer{
@@ -51,7 +51,7 @@
 /*links in footer*/
 #footer a{
 	color: #262626;
-	font-size: 17px;
+	font-size: 16px;
 }
 #footer a:hover{
 	text-decoration: underline;
@@ -61,13 +61,14 @@
 	transition: color 0.2s;
 }
 /*all input fields*/
-input{
+.input-field{
 	outline: none;
 	outline-width: 0px;
 	width: 100%;
 	border: none;
 	border-bottom: 1px solid black;
 	margin-bottom: 15px;
+	transition: border-bottom 0.2s;
 }
 /*when columns are one below another, add margin-bottom to every so they do not touch and lower padding in number div*/
 @media screen and (max-width: 770px){
