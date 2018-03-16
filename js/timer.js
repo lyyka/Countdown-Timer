@@ -43,23 +43,28 @@ $(document).ready(function(){
 	$(".input-field").focus(function(){
 		var label = $("label[for='"+$(this).attr('id')+"']");
 		color = GetRandomColor();
+		$(this).css("border-bottom","1px solid " + color);
 		HighlightLabel(label,color);
 	});
 	// input focus out
 	$(".input-field").blur(function(){
 		var label = $("label[for='"+$(this).attr('id')+"']");
+		$(this).css("border-bottom","1px solid black");
 		RemoveHighlight(label);
 	});
+	// mouse enters start countdown div
 	$("#sbmt").mouseenter(function(){
 		$("#sbmt").css("background",inverted_attr_old);
 		$("#sbmt").css("background",inverted_attr_webkit);
 		$("#sbmt").css("background",inverted_attr);
 	});
+	// mouse leaves start countdown div
 	$("#sbmt").mouseleave(function(){
 		$("#sbmt").css("background", attr_old);
 		$("#sbmt").css("background", attr_webkit);
 		$("#sbmt").css("background", attr);
 	});
+	// show congrats div
 	$("#close-congrats").click(function(){
 		$("#congrats-holder").css("display","none");
 	});
@@ -77,17 +82,16 @@ $(document).ready(function(){
 			var curr_day = date.getDate();
 			var curr_month = date.getMonth()+1;
 			var curr_year = date.getFullYear();
-			// current time
-			var curr_hours = date.getHours();
-			var curr_mins = date.getMinutes();
-			var curr_seconds = date.getSeconds();
-			// differences in dates
+			// differences in days
 			var day_diff = day - curr_day;
-			var month_diff = month-curr_month-1;
-			var year_diff = year - curr_year;
+			// reseting total_h
 			total_h = 0;
 			// if the day is different
 			if(day != curr_day){
+				// current time
+				var curr_hours = date.getHours();
+				var curr_mins = date.getMinutes();
+				var curr_seconds = date.getSeconds();
 				// time until current day ends
 				left_h = 24 - curr_hours - 1;
 				left_m = 60 - curr_mins-1;
@@ -187,17 +191,15 @@ function GetMonthDays(year,month_num){
 	}
 }
 function DisplayTimer(attr,total_h,left_h,left_m,left_s){
-	// displaying timer and choosing random color pair for text
+	// displaying timer
 	$("#timer").css("display","block");
 	$(".number-div").css("background", attr_old);
 	$(".number-div").css("background", attr_webkit);
 	$(".number-div").css("background", attr);
 	$("#timer").addClass("animated fadeInLeftBig");
-	// end of displaying timer
-	$("#days").html(total_h/24);
-	$("#hours").html(left_h);
-	$("#minutes").html(left_m);
-	$("#seconds").html(left_s);
+	// displaying numbers
+	UpdateTimer();
+	// removing animation class from #timer
 	window.setTimeout(function(){
 		$("#timer").removeClass("animated fadeInLeftBig");
 	},2000);
@@ -217,7 +219,7 @@ function CheckInput(day,month,year){
 		pass = -1;
 	}
 	else if (year < 2018 || year > 3000){
-		alert("Year is not valid.");
+		alert("Year is not valid (must be between 2018 and 3000).");
 		pass = -1;
 	}
 	if(pass == 1){
