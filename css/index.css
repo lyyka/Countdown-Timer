@@ -1,4 +1,12 @@
-
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+body{
+	font-family: "Montserrat",sans-serif;
+	position: relative;
+	padding-bottom: 270px;
+}
+.align-center{
+	text-align: center;
+}
 /*input form*/
 #form{
 	padding: 25px 25px;
@@ -8,6 +16,7 @@
 }
 /*calculate button*/
 #sbmt{
+	cursor: pointer;
 	border-radius: 10px;
 	width:100%;
 	padding: 7px 7px;
@@ -16,32 +25,31 @@
 	outline: none;
 	color: white;
 }
+/* text that displays after form submits */
+#waiting-for-text{
+	margin-bottom: 35px;
+}
 /*div for holding whole timer*/
 #timer{
+	display: none;
 	margin-top: 50px;
-	font-size: 50px;
 	color: white;
 	text-align: center;
-}
-/*close congrats div*/
-#close-congrats{
-	float: right;
-}
-#close-congrats:hover{
-	cursor: pointer;
-	text-decoration: underline; 
-}
-/*font*/
-.font-raleway{
-	font-family: "Raleway",sans-serif;
 }
 /*div for holding only number and text (days, hours, months, seconds)*/
 .number-div{
 	display: block;
 	padding: 10px 10px;
-	font-size: 100px;
 	border-radius: 10px;
 	box-shadow: 0px 0px 5px #262626;
+}
+/* text in number div */
+.countdown-cards-text{
+	font-size: 2em;
+}
+/* numbers */
+.numbers{
+	font-size: 4em;
 }
 /*footer*/
 #footer{
@@ -73,25 +81,28 @@
 	transition: border-bottom 0.2s;
 }
 /*when columns are one below another, add margin-bottom to every so they do not touch and lower padding in number div*/
-@media screen and (max-width: 770px){
+@media screen and (max-width: 992px){
+	.countdown-cards-text{
+		font-size: 1.5em;
+	}
+}
+@media screen and (max-width: 768px){
+	.countdown-cards-text{
+		font-size: 1.3em;
+	}
 	.number-div{
 		padding: 5px 5px;
 	}
 	.number-col{
-		margin:7px 7px;
+		margin: 7px 7px;
 	}
 	#footer{
 		margin-bottom: 25px;
 	}
 }
-/*add padding to body on bottom, for the footer*/
-body{
-	position: relative;
-	padding-bottom: 270px;
-}
 /*div that holds white congrats div*/
 #congrats-holder{
-	position: absolute;
+	position: fixed;
 	top: 0;
 	left: 0;
 	display: none;
@@ -111,4 +122,12 @@ body{
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
+}
+/*close congrats div*/
+#close-congrats{
+	float: right;
+}
+#close-congrats:hover{
+	cursor: pointer;
+	text-decoration: underline; 
 }

@@ -1,10 +1,10 @@
-var total_h = 0;
-var left_h = -1;
-var left_m = -1;
-var left_s = -1;
-var int;
+let total_h = 0;
+let left_h = -1;
+let left_m = -1;
+let left_s = -1;
+let int;
 // colors taken from www.uigradients.com
-var colors = [
+const colors = [
 {first: "#ffe259", second: "#ffa751"},
 {first: "#bc4e9c", second: "#f80759"},
 {first: "lightblue", second: "palegreen"},
@@ -17,52 +17,42 @@ var colors = [
 {first: "#FF5F6D" , second: "#FFC371"},
 {first: "#00d2ff" , second: "#928DAB"}
 ];
-var random_index = Math.floor((Math.random() * colors.length) + 1);
-var pair = colors[random_index-1];
-// random color array
-var attr_old = pair.first;
-var attr =  "linear-gradient(to bottom right, " + pair.first + ", " + pair.second + ")";
-var attr_webkit = "-webkitlinear-gradient(to bottom right, " + pair.first + ", " + pair.second + ")";
-// attrs for button hover
-var inverted_attr_old = pair.second;
-var inverted_attr =  "linear-gradient(to top left, " + pair.first + ", " + pair.second + ")";
-var inverted_attr_webkit =  "-webkit-linear-gradient(to top left, " + pair.first + ", " + pair.second + ")";
+// random idnex from colors
+const random_color_index = Math.floor((Math.random() * colors.length) + 1);
+const pair = colors[random_color_index-1];
+// // random color array
+// var attr_old = pair.first;
+// var attr =  "linear-gradient(to bottom right, " + pair.first + ", " + pair.second + ")";
+// var attr_webkit = "-webkit-linear-gradient(to bottom right, " + pair.first + ", " + pair.second + ")";
+// // attrs for button hover
+// var inverted_attr_old = pair.second;
+// var inverted_attr =  "linear-gradient(to top left, " + pair.first + ", " + pair.second + ")";
+// var inverted_attr_webkit =  "-webkit-linear-gradient(to top left, " + pair.first + ", " + pair.second + ")";
 $(document).ready(function(){
-	$("#timer").css("display","none");
+	// color the start-countdown button
+	$("#sbmt").css({
+		'background-color': pair.first
+	});
+	// add animations
 	$("#form").addClass("animated fadeInRightBig");
 	$("#footer").addClass("animated fadeIn");
 	window.setTimeout(function(){
+		// remove animation classess after some time
 		$("#form").removeClass("animated fadeInRightBig");
 		$("#footer").removeClass("animated fadeIn");
 	},2000);
-	$("#sbmt").css("background", attr_old);
-	$("#sbmt").css("background", attr_webkit);
-	$("#sbmt").css("background", attr);
-	$("#congrats-h").css("color",GetRandomColor());
+	$("#congrats-h").css("color",pair.first);
 	// input focus in
 	$(".input-field").focus(function(){
-		var label = $("label[for='"+$(this).attr('id')+"']");
-		color = GetRandomColor();
-		$(this).css("border-bottom","1px solid " + color);
-		HighlightLabel(label,color);
+		var label = $(this).parent().find("label");
+		$(this).css("border-bottom","1px solid " + GetRandomColor());
+		HighlightLabel(label,pair.second);
 	});
 	// input focus out
 	$(".input-field").blur(function(){
-		var label = $("label[for='"+$(this).attr('id')+"']");
+		const label = $(this).parent().find("label");
 		$(this).css("border-bottom","1px solid black");
 		RemoveHighlight(label);
-	});
-	// mouse enters start countdown div
-	$("#sbmt").mouseenter(function(){
-		$("#sbmt").css("background",inverted_attr_old);
-		$("#sbmt").css("background",inverted_attr_webkit);
-		$("#sbmt").css("background",inverted_attr);
-	});
-	// mouse leaves start countdown div
-	$("#sbmt").mouseleave(function(){
-		$("#sbmt").css("background", attr_old);
-		$("#sbmt").css("background", attr_webkit);
-		$("#sbmt").css("background", attr);
 	});
 	// show congrats div
 	$("#close-congrats").click(function(){
@@ -71,16 +61,27 @@ $(document).ready(function(){
 	// button click
 	$("#sbmt").click(function(){
 		clearInterval(int);
-		// final dan mesec godina
-		var day = $("#day").val();
-		var month = $("#month").val();
-		var year = $("#year").val();
-		if(CheckInput(day,month,year)){
+		const evt_name = $("#event-name").val();
+		const day = $("#day").val();
+		const month = $("#month").val();
+		const year = $("#year").val();
+		if(CheckInput(evt_name,day,month,year)){
+			$("#form").hide();
+			$("#waiting-for-text").text("Time until " + evt_name);
+			$("#waiting-for-text").css({
+				"color": pair.first
+			});
+			$("#waiting-for-text").show();
+			// set event name in congrats div
+			$("#event-name-holder").text(evt_name);
+			$("#event-name-holder").css({
+				"color": pair.first
+			});
 			// date time getter
 			var date = new Date();
 			// current date
 			var curr_day = date.getDate();
-			var curr_month = date.getMonth()+1;
+			var curr_month = date.getMonth()+1; // +1 because .getMonth() returns month index (from 0 to 11)
 			var curr_year = date.getFullYear();
 			// differences in days
 			var day_diff = day - curr_day;
@@ -118,7 +119,6 @@ $(document).ready(function(){
 					}
 					else{
 						while(true){
-							total_h += (GetMonthDays(curr_year,curr_month)*24);
 							curr_month++;
 							if(curr_month > 12){
 								curr_month = 1;
@@ -126,6 +126,9 @@ $(document).ready(function(){
 							}
 							if(curr_month == month && curr_year == year){
 								break;
+							}
+							else{
+								total_h += (GetMonthDays(curr_year,curr_month)*24);
 							}
 						}
 					}
@@ -145,7 +148,7 @@ $(document).ready(function(){
 				alert("The date is current date or is before current date.");
 			}
 			else{
-				DisplayTimer(attr,total_h,left_h,left_m,left_s);
+				DisplayTimer(pair.first);
 				StartCountDown();
 			}
 			
@@ -175,27 +178,29 @@ function HighlightLabel(label,color){
 }
 // gets how much days does the current date have based on it's number and year(to see if it is a leap year)
 function GetMonthDays(year,month_num){
+	let days = 0;
 	if(month_num == 1 || month_num == 3 || month_num == 5 || month_num == 7 || month_num == 8 || month_num == 10 || month_num == 12){
-		return 31;
+		days = 31;
 	}
 	if(month_num == 4 || month_num == 6 || month_num == 9 || month_num == 11){
-		return 30;
+		days = 30;
 	}
 	if(month_num == 2){
 		if(year % 4 == 0 && year % 100 != 0 && year % 400 == 0){
-			return 29;
+			days = 29;
 		}
 		else{
-			return 28;
+			days = 28;
 		}
 	}
+	return days;
 }
-function DisplayTimer(attr,total_h,left_h,left_m,left_s){
+function DisplayTimer(color){
 	// displaying timer
 	$("#timer").css("display","block");
-	$(".number-div").css("background", attr_old);
-	$(".number-div").css("background", attr_webkit);
-	$(".number-div").css("background", attr);
+	$(".number-div").css({
+		"background-color": color
+	});
 	$("#timer").addClass("animated fadeInLeftBig");
 	// displaying numbers
 	UpdateTimer();
@@ -204,30 +209,25 @@ function DisplayTimer(attr,total_h,left_h,left_m,left_s){
 		$("#timer").removeClass("animated fadeInLeftBig");
 	},2000);
 }
-function CheckInput(day,month,year){
-	var pass = 1;
-	if(day == "" || month == "" || year == ""){
+function CheckInput(evt_name, day, month, year){
+	let pass = true;
+	if(evt_name.left_h == 0 || day.length == 0 || month.length == 0 || year.length == 0){
 		alert("Some fields are empty.");
-		pass = -1;
+		pass = false;
 	}
-	else if (day <= 0 || day > 31){
+	else if (day < 1 || day > 31){
 		alert("Day is not valid.");
-		pass = -1;
+		pass = false;
 	}
 	else if (month < 1 || month > 12){
 		alert("Month is not valid.");
-		pass = -1;
+		pass = false;
 	}
-	else if (year < 2018 || year > 3000){
-		alert("Year is not valid (must be between 2018 and 3000).");
-		pass = -1;
+	else if (year < (new Date()).getFullYear() || year > 3000){
+		alert("Year is not valid (must be between " + (new Date()).getFullYear() + " and 3000).");
+		pass = false;
 	}
-	if(pass == 1){
-		return true;
-	}
-	else{
-		return false;
-	}
+	return pass;
 }
 function StartCountDown(){
 	int = setInterval(Count,1000);
@@ -248,15 +248,15 @@ function Count(){
 	}
 	if(total_h == 0 && left_h == 0 && left_m == 0 && left_s == 0){
 		clearInterval(int);
-		$("#congrats-holder").css("display","block");
+		$("#congrats-holder").show();
 	}
 	else{
 		UpdateTimer();
 	}
 }
 function UpdateTimer(){
-	$("#days").html(total_h/24);
-	$("#hours").html(left_h);
-	$("#minutes").html(left_m);
-	$("#seconds").html(left_s);
+	$("#days").text(total_h/24);
+	$("#hours").text(left_h);
+	$("#minutes").text(left_m);
+	$("#seconds").text(left_s);
 }
